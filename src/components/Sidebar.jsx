@@ -1,9 +1,11 @@
 import React from 'react'
 import Category from './Category'
-import { categories } from '../data/categories'
+import useShop from '../hooks/useShop'
 
 const Sidebar = () => {
-  return (
+    const { categories, currentCategory } = useShop();
+
+    return (
     <aside className='md:w-72'>
         <div className='p-4'>
             <img 
