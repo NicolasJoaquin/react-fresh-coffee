@@ -3,7 +3,7 @@ import useShop from '../hooks/useShop'
 import { formatPrice } from '../helpers';
 
 const ProductModal = () => {
-    const { product, handleClickModal } = useShop();
+    const { product, handleClickModal, addProductToOrder } = useShop();
     const [quantity, setQuantity] = useState(1);
 
   return (
@@ -63,6 +63,10 @@ const ProductModal = () => {
             <button
                 type='button'
                 className='bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white rounded' 
+                onClick={() => {
+                    addProductToOrder({...product, quantity});
+                    handleClickModal();
+                }}
             >
                 Agregar al pedido
             </button>

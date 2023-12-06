@@ -9,8 +9,7 @@ const ShopProvider = ({children}) => {
     const [currentCategory, setCurrentCategory] = useState(categories[0]); 
     const [modal, setModal] = useState(false); 
     const [product, setProduct] = useState({}); 
-
-    // const [categories, setCategories] = useState([]); 
+    const [order, setOrder] = useState([]); 
 
     // Funciones
     const handleClickCategory = (id) => {
@@ -23,6 +22,9 @@ const ShopProvider = ({children}) => {
     const handleSetProduct = (product) => {
         setProduct(product);
     }
+    const addProductToOrder = (product) => {
+        setOrder([...order, product]);
+    }
     
     return (
         <ShopContext.Provider
@@ -34,6 +36,8 @@ const ShopProvider = ({children}) => {
                 handleClickModal,
                 product,
                 handleSetProduct,
+                order,
+                addProductToOrder,
             }}
         >
             {children}
