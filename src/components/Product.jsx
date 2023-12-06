@@ -1,8 +1,10 @@
 import React from 'react'
 import { formatPrice } from '../helpers';
+import useShop from '../hooks/useShop';
 
 const Product = ({product}) => {
     const {name, price, image, category_id, id} = product;
+    const { handleClickModal, handleSetProduct } = useShop();
 
     return (
         <div className='border p-3 shadow bg-white rounded-sm'>
@@ -21,6 +23,10 @@ const Product = ({product}) => {
                 <button 
                     type='button'
                     className='bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-5 p-3 rounded'
+                    onClick={() => {
+                        handleClickModal();
+                        handleSetProduct(product);
+                    }}
                 >   
                     Agregar
                 </button>
