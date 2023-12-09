@@ -1,8 +1,11 @@
 import React from 'react'
 import { formatPrice } from '../helpers';
+import useShop from '../hooks/useShop';
 
 const ProductOverview = ({product}) => {
     const { id, name, price, quantity } = product;
+    const { handleEditQuantity, handleDeleteProductFromOrder } = useShop();
+
     return (
         <div className="shadow space-y-1 p-4 bg-white">
             <div className="space-y-2">
@@ -20,6 +23,7 @@ const ProductOverview = ({product}) => {
                 <button
                     type="button"
                     className="bg-sky-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
+                    onClick={() => handleEditQuantity(id)}
                 >
                     <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -33,6 +37,7 @@ const ProductOverview = ({product}) => {
                 <button
                     type="button"
                     className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
+                    onClick={() => handleDeleteProductFromOrder(id)}
                 >
                     <svg
                     xmlns="http://www.w3.org/2000/svg"

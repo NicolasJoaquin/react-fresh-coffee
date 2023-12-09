@@ -1,10 +1,19 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import useShop from '../hooks/useShop'
 import { formatPrice } from '../helpers';
 
 const ProductModal = () => {
-    const { product, handleClickModal, addProductToOrder } = useShop();
+    const { product, handleClickModal, addProductToOrder, order } = useShop();
     const [quantity, setQuantity] = useState(1);
+    const [editing, setEditing] = useState(false);
+
+    useEffect(() => {
+        if(order.some(item => item.id === product.id)) {
+            const item = order.filter(item => item.id === product.id)[0];
+            setQuantity(item.quantity);
+            setEditing(true);
+        }
+    }, [order]);
 
   return (
     <div className='md:flex gap-10'>
@@ -68,7 +77,7 @@ const ProductModal = () => {
                     handleClickModal();
                 }}
             >
-                Agregar al pedido
+                {editing ? 'Guardar cambios' : 'Agregar al pedido'} 
             </button>
         </div>
     </div>

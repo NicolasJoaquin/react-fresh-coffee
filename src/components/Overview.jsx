@@ -1,9 +1,11 @@
 import React from 'react'
 import useShop from '../hooks/useShop';
 import ProductOverview from './ProductOverview';
+import { formatPrice } from '../helpers';
 
 const Overview = () => {
-  const {order} = useShop();
+  const { order, total } = useShop();
+  const validateOrderLength = () => order.length > 0;
 
   return (
     <aside className='w-72 h-screen overflow-y-scroll p-5'>
@@ -25,7 +27,7 @@ const Overview = () => {
         )}
       </div>
       <p className='text-xl mt-10'>
-          Total: {''}
+          Total: {formatPrice(total)}
       </p>
       <form className='w-full'>
           <div className='mt-5'>
@@ -33,8 +35,9 @@ const Overview = () => {
               type="submit" 
               name="" 
               id=""
-              className='bg-indigo-600 hover:bg-indigo-800 px-5 py-2 rounded text-white text-center w-full cursor-pointer'
+              className={`${!validateOrderLength() ? 'bg-indigo-100 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-800 cursor-pointer'} px-5 py-2 rounded text-white text-center w-full`}
               value="Confirmar pedido"
+              disabled={!validateOrderLength()}
             />
           </div>
       </form>
