@@ -1,13 +1,17 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { toast } from 'react-toastify';
-import { categories as DBCategories } from '../data/categories'
+// import { categories as DBCategories } from '../data/categories'
+// import axios from 'axios';
+import axiosClient from '../utils/axios';
 
 const ShopContext = createContext(null);
 
 const ShopProvider = ({children}) => {
     // Hooks 
-    const [categories, setCategories] = useState(DBCategories); 
-    const [currentCategory, setCurrentCategory] = useState(categories[0]); 
+    // const [categories, setCategories] = useState(DBCategories); 
+    const [categories, setCategories] = useState([]); 
+    // const [currentCategory, setCurrentCategory] = useState(categories[0]); 
+    const [currentCategory, setCurrentCategory] = useState({}); 
     const [modal, setModal] = useState(false); 
     const [product, setProduct] = useState({}); 
     const [order, setOrder] = useState([]); 
@@ -16,8 +20,22 @@ const ShopProvider = ({children}) => {
         const newTotal = order.reduce((total, product) => (product.price * product.quantity) + total, 0);
         setTotal(newTotal);
     }, [order]);
+    useEffect(() => {
+        getCategories();
+    }, []);
 
     // Funciones
+    const getCategories = async () => {
+        try {
+            // console.log(import.meta.env.VITE_API_URL);
+            const { data } = await axiosClient('/api/categories');
+            setCategories(data.data);
+            setCurrentCategory(data.data[0]);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const handleClickCategory = (id) => {
         const category = categories.filter(category => category.id == id)[0];
         setCurrentCategory(category);
