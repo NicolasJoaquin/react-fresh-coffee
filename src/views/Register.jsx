@@ -1,13 +1,39 @@
-import React from 'react'
+import React, { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axiosClient from '../utils/axios';
 
 const Register = () => {
+  const nameRef = createRef();
+  const emailRef = createRef();
+  const passwordRef = createRef();
+  const passwordConfirmationRef = createRef();
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      password_confirmation: passwordConfirmationRef.current.value,
+    }
+    // console.log(data)
+    try {
+      const response = await axiosClient.post('/api/register', data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <h1 className='text-4xl'>Crea tu cuenta</h1>
       <p>Crea tu cuenta llenando el formulario</p>
       <div className='bg-white shadow-md rounded-md mt-10 px-5 py-10'>
-        <form action="">
+        <form 
+          action=""
+          onSubmit={(event) => handleSubmit(event)}
+        >
           <div className='mb-4'>
             <label 
               htmlFor="name"
@@ -21,6 +47,7 @@ const Register = () => {
               className='mt-2 w-full p-3 bg-gray-50'
               name='name'
               placeholder='Nicolas Diorio'
+              ref={nameRef}
             />
           </div>
 
@@ -37,6 +64,7 @@ const Register = () => {
               className='mt-2 w-full p-3 bg-gray-50'
               name='email'
               placeholder='nicolas.joaquin.diorio@gmail.com'
+              ref={emailRef}
             />
           </div>
 
@@ -53,6 +81,7 @@ const Register = () => {
               className='mt-2 w-full p-3 bg-gray-50'
               name='password'
               placeholder='*********'
+              ref={passwordRef}
             />
           </div>
 
@@ -69,6 +98,7 @@ const Register = () => {
               className='mt-2 w-full p-3 bg-gray-50'
               name='password_confirmation'
               placeholder='*********'
+              ref={passwordConfirmationRef}
             />
           </div>
 

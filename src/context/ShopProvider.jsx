@@ -31,7 +31,7 @@ const ShopProvider = ({children}) => {
             const { data } = await axiosClient('/api/categories');
             setCategories(data.data);
             setCurrentCategory(data.data[0]);
-            console.log(data);
+            // console.log(data);
         } catch (error) {
             console.log(error);
         }
