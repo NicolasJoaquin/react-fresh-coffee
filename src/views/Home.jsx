@@ -1,11 +1,21 @@
 import React from 'react'
 import Product from '../components/Product'
-import { products as data } from '../data/products'
+// import { products as data } from '../data/products'
+import useSWR from 'swr'
 import useShop from '../hooks/useShop'
+import axiosClient from '../utils/axios'
 
 const Home = () => {
   const { currentCategory } = useShop();
-  const products = data.filter((product) => product.category_id == currentCategory.id);
+  // SWR Request
+  const fetcher = () => axiosClient('/api/products').then(data => data.data);
+  const { data, error, isLoading } = useSWR('/api/products', fetcher, {
+    refreshInterval: 1000,
+  });
+  
+  if(isLoading) return 'Spinner...';
+  
+  const products = data.data.filter((product) => product.category_id == currentCategory.id);
 
   return (
     <>
