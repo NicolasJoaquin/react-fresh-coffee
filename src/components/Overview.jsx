@@ -4,8 +4,13 @@ import ProductOverview from './ProductOverview';
 import { formatPrice } from '../helpers';
 
 const Overview = () => {
-  const { order, total } = useShop();
+  const { order, total, handleSubmitNewOrder } = useShop();
   const validateOrderLength = () => order.length > 0;
+
+  const handeSubmit = (e) => {
+    e.preventDefault();
+    handleSubmitNewOrder();
+  }
 
   return (
     <aside className='w-72 h-screen overflow-y-scroll p-5'>
@@ -29,7 +34,10 @@ const Overview = () => {
       <p className='text-xl mt-10'>
           Total: {formatPrice(total)}
       </p>
-      <form className='w-full'>
+      <form 
+        className='w-full'
+        onSubmit={handeSubmit}  
+      >
           <div className='mt-5'>
             <input 
               type="submit" 

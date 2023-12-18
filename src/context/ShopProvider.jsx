@@ -7,6 +7,7 @@ import axiosClient from '../utils/axios';
 const ShopContext = createContext(null);
 
 const ShopProvider = ({children}) => {
+    const token = localStorage.getItem('AUTH_TOKEN');
     // Hooks 
     // const [categories, setCategories] = useState(DBCategories); 
     const [categories, setCategories] = useState([]); 
@@ -67,6 +68,24 @@ const ShopProvider = ({children}) => {
         setOrder(newOrder);
         toast.success('¡Eliminaste un producto!');
     }
+    const handleSubmitNewOrder = async () => {
+        try {
+            const response = await axiosClient.post('/api/orders', {
+                total: total,
+                products: order,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }    
+            });
+            toast.success(response.data.message);
+            setTimeout(() => {
+                setOrder([]);
+            }, 1000);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     return (
         <ShopContext.Provider
@@ -82,6 +101,7 @@ const ShopProvider = ({children}) => {
                 addProductToOrder,
                 handleEditQuantity,
                 handleDeleteProductFromOrder,
+                handleSubmitNewOrder,
                 total,
             }}
         >
