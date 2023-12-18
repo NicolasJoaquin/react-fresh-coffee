@@ -1,12 +1,15 @@
 import React, { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axiosClient from '../utils/axios';
+import Alert from '../components/Alert';
+import { useAuth } from '../hooks/useAuth';
 
 const Register = () => {
   const nameRef = createRef();
   const emailRef = createRef();
   const passwordRef = createRef();
   const passwordConfirmationRef = createRef();
+  const [errors, setErrors] = useState({});
+  const { register } = useAuth({middleware: 'guest', url: '/'});
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,12 +20,7 @@ const Register = () => {
       password_confirmation: passwordConfirmationRef.current.value,
     }
     // console.log(data)
-    try {
-      const response = await axiosClient.post('/api/register', data);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    register(data, setErrors);
   }
 
   return (
@@ -33,6 +31,7 @@ const Register = () => {
         <form 
           action=""
           onSubmit={(event) => handleSubmit(event)}
+          noValidate
         >
           <div className='mb-4'>
             <label 
@@ -49,6 +48,7 @@ const Register = () => {
               placeholder='Nicolas Diorio'
               ref={nameRef}
             />
+            {errors.name?.length > 0 ? errors.name.map((error, i) => <Alert key={i} type='error'>{error}</Alert>)  : null}
           </div>
 
           <div className='mb-4'>
@@ -66,6 +66,7 @@ const Register = () => {
               placeholder='nicolas.joaquin.diorio@gmail.com'
               ref={emailRef}
             />
+            {errors.email?.length > 0 ? errors.email.map((error, i) => <Alert key={i} type='error'>{error}</Alert>)  : null}
           </div>
 
           <div className='mb-4'>
@@ -83,6 +84,7 @@ const Register = () => {
               placeholder='*********'
               ref={passwordRef}
             />
+            {errors.password?.length > 0 ? errors.password.map((error, i) => <Alert key={i} type='error'>{error}</Alert>)  : null}
           </div>
 
           <div className='mb-4'>

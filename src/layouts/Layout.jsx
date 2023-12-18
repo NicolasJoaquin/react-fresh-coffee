@@ -7,6 +7,7 @@ import Sidebar from '../components/Sidebar'
 import Overview from '../components/Overview'
 import ProductModal from '../components/ProductModal'
 import useShop from '../hooks/useShop'
+import { useAuth } from '../hooks/useAuth'
 
 const customStyles = {
   content: {
@@ -22,7 +23,13 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 const Layout = () => {
+  const { user, error } = useAuth({
+    middleware: 'auth', 
+  });
   const { modal } = useShop();
+
+  console.log(user);
+  console.log(error);
 
   return (
     <>
