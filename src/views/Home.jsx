@@ -8,7 +8,12 @@ import axiosClient from '../utils/axios'
 const Home = () => {
   const { currentCategory } = useShop();
   // SWR Request
-  const fetcher = () => axiosClient('/api/products').then(data => data.data);
+  const token = localStorage.getItem('AUTH_TOKEN');
+  const fetcher = () => axiosClient('/api/products', {
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
+  }).then(data => data.data);
   const { data, error, isLoading } = useSWR('/api/products', fetcher, {
     refreshInterval: 1000,
   });
@@ -28,6 +33,7 @@ const Home = () => {
           <Product
             key={product.id}
             product={product} 
+            addButton={true}
           />
         ))}
       </div>

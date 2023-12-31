@@ -29,7 +29,11 @@ const ShopProvider = ({children}) => {
     const getCategories = async () => {
         try {
             // console.log(import.meta.env.VITE_API_URL);
-            const { data } = await axiosClient('/api/categories');
+            const { data } = await axiosClient('/api/categories', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setCategories(data.data);
             setCurrentCategory(data.data[0]);
             // console.log(data);
@@ -86,6 +90,32 @@ const ShopProvider = ({children}) => {
             console.log(error);
         }
     }
+    const handleClickCompleteOrder = async id => {
+        const token = localStorage.getItem('AUTH_TOKEN');
+        try {
+            await axiosClient.put(`/api/orders/${id}`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }    
+            });
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const handleClickOutOfStock = async id => {
+        const token = localStorage.getItem('AUTH_TOKEN');
+        try {
+            await axiosClient.put(`/api/products/${id}`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }    
+            });
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
     
     return (
         <ShopContext.Provider
@@ -103,6 +133,8 @@ const ShopProvider = ({children}) => {
                 handleDeleteProductFromOrder,
                 handleSubmitNewOrder,
                 total,
+                handleClickCompleteOrder,
+                handleClickOutOfStock,
             }}
         >
             {children}
