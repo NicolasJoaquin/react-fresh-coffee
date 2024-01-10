@@ -23,7 +23,7 @@ const Products = () => {
         <h1 className='text-4xl font-semibold'>Productos</h1>
         <p className='text-2xl my-10'>Desde acá podés administrar la disponibilidad de tus productos</p>
         <div className='grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3'>
-        {data.map(product => (
+        {data?.map(product => (
           <Product
             key={product.id}
             product={product} 

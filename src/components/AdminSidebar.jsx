@@ -1,9 +1,11 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 const AdminSidebar = () => {
     const { logout } = useAuth({middleware: 'auth'});
+    const location = useLocation();
+    const pathname = location.pathname;
 
   return (
     <aside className='md:w-72 h-screen'>
@@ -14,9 +16,33 @@ const AdminSidebar = () => {
                 className='w-40' 
             />
         </div>
-        <nav className='flex flex-col p-4'>
-            <Link to="/admin" className='font-semibold text-lg'>Pedidos</Link>
-            <Link to="/admin/products" className='font-semibold text-lg'>Productos</Link>
+        <nav className='mt-10'>
+            <Link 
+                to="/admin" 
+                className={(pathname === '/admin' ? 'bg-amber-400' : '') + ' flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'}
+            >
+                <img 
+                    src={"/img/buy-1.svg"} 
+                    alt={'Pedidos'}
+                    className='w-20'
+                />
+                <p className='text-lg truncate'>
+                    {'Pedidos'}
+                </p>
+            </Link>
+            <Link 
+                to="/admin/products" 
+                className={(pathname === '/admin/products' ? 'bg-amber-400' : '') +' flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'}
+            >
+                <img 
+                    src={"/img/bag-1.svg"} 
+                    alt={'Productos'}
+                    className='w-20'
+                />
+                <p className='text-lg truncate'>
+                    {'Productos'}
+                </p>
+            </Link>
         </nav>
         <div className='my-5 px-5'>
             <button
