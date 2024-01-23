@@ -21,12 +21,12 @@ const categories = [
       },
       {
         icon: "pastel",
-        name: "Pasteles",
+        name: "Tortas",
         id: 5
       },
       {
         icon: "galletas",
-        name: "Galletas",
+        name: "Cookies",
         id: 6
       }
 ]
